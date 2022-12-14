@@ -1,0 +1,7 @@
+{
+  "name": "kitb",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
