@@ -1,20 +1,75 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header>
+  <ion-toolbar style="padding: 0 7%;">
+    <!-- <ion-title style="padding-left: 0; cursor: pointer;" [routerLink]="['/home']"> -->
+      <!-- <b>IT KITB</b> -->
+    <!-- </ion-title> -->
+    <ion-toolbar>
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col><h3 style="padding-left: 0; cursor: pointer;font-size: 24px;" [routerLink]="['/home']"><b>IT KITB</b></h3></ion-col>
+          <ion-col></ion-col>
+          <ion-col float-right style="padding: 8px 0 0;">
+            <ion-searchbar placeholder="Cari Produk" color="dark" (ionInput)="search($event)"></ion-searchbar>
+          </ion-col>
+      </ion-row>
+      </ion-grid>
+    </ion-toolbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+<ion-content style="--background: rgb(243, 243, 243) !important; --color: black !important;">
+  <div style="padding: 0 7%;">
+    <div class="category" *ngIf="!inputSearch">
+      <h4 style="margin-bottom: 15px;"><b>Kategori</b></h4>
+      <div class="wrapper1">
+        <div class="box {{ !category ? 'blue fontWhite' : 'gray fontBlack' }}">
+           <p (click)="getAllProduct()" style="cursor: pointer;"><b>All</b></p>
+        </div>
+        <div class="box {{ allcategory == category ? 'blue fontWhite' : 'gray fontBlack' }}" *ngFor="let allcategory of allcategory">
+          <p (click)="productCategory(allcategory)" style="cursor: pointer;"><b>{{ allcategory }}</b></p>
+       </div>
+      </div>
+    </div>
+    <div style="margin-top: 30px;">
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col>
+            <h4 style="margin-top: 10px;"><b>Produk</b></h4>
+          </ion-col>
+          <ion-col></ion-col>
+          <ion-col></ion-col>
+          <ion-col>
+            <ion-select [(ngModel)]="limit" (ionChange)="handleChange($event)" (ionCancel)="pushLog('ionCancel fired')"
+            (ionDismiss)="pushLog('ionDismiss fired')" placeholder="Limit">
+            <ion-select-option value="10">10</ion-select-option>
+            <ion-select-option value="20">20</ion-select-option>
+              <ion-select-option value="30">30</ion-select-option>
+            </ion-select>
+          </ion-col>
+          <ion-col style="text-align: end;">
+            <ion-button [routerLink]="['/tambah']"><ion-icon name="add-outline"></ion-icon> &nbsp;Tambah Produk</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div class="wrapper2">
+        <ion-card *ngFor="let allProduct of allProduct" style="background-color: white;">
+          <img src="{{allProduct.images[0]}}" style="max-height: 220px;"/>
+          <ion-card-header style="padding-bottom: 12px;">
+            <ion-card-title [routerLink]="['/detail/']" [queryParams]="{ id: allProduct.id}" style="font-size: 16px;cursor: pointer;">{{ allProduct.title }}</ion-card-title>
+            <ion-badge style="margin-top: 10px;background-color: #89b0ff;">{{ allProduct.category }}</ion-badge>
+            <h5 style="color: #558AF7;margin: 10px 0 0;"><b>$ {{ allProduct.price }}</b></h5>
+            <ion-label style="font-size: 12px;margin-top: 6px;">Diskon: <b style="color: red;">{{ allProduct.discountPercentage }}%</b></ion-label>
+          </ion-card-header>
+          <ion-card-content style="margin-bottom: 50px;font-size: 12.5px;">
+            {{ allProduct.description.substr(0, 40) }}..
+          </ion-card-content>
+          <ion-row class="cardfooter" style="position: absolute;bottom: 0;margin: 12px 0;padding-left: 16px;">
+            <ion-button [routerLink]="['/detail/']" [queryParams]="{ id: allProduct.id}" style="--padding-start: 30px;--padding-end: 30px;"><ion-icon name="cart-outline"></ion-icon> &nbsp;&nbsp; <b>Beli</b></ion-button>
+            <ion-button (click)="delete(allProduct.id)"><ion-icon name="trash-outline"></ion-icon></ion-button>
+          </ion-row>
+        </ion-card>
+        <h5 *ngIf="!allProduct?.length">Data tidak ditemukan</h5>
+      </div>
+    </div>
   </div>
 </ion-content>

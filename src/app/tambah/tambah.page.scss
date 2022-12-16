@@ -1,0 +1,22 @@
+ion-input, ion-textarea {
+    border: 1px solid rgb(202, 202, 202);
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+ion-col {
+    font-size: 14px;
+
+    ion-label {
+        font-weight: 500;
+    }
+}
+
+ion-spinner {
+    width: 100%;
+    text-align: center;
+    margin-top: 60%;
+    z-index: 99;
+    position: absolute;
+    transform: scale(1.6);
+}

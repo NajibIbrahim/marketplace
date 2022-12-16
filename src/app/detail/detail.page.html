@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar style="padding: 0 7%;">
+    <ion-title style="padding-left: 0;">
+      <h3 style="padding-left: 0; cursor: pointer;font-size: 24px;" [routerLink]="['/home']"><b>IT KITB</b></h3>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="--background: rgb(243, 243, 243) !important; --color: black !important;">
+  <ion-spinner *ngIf="loading" color="secondary"></ion-spinner>
+  <div style="padding: 1.6% 7%;">
+    <div class="category">
+      <div style="margin-bottom: 10px;">
+        <ion-grid style="padding-left: 0;">
+          <ion-row>
+            <ion-col style="padding-left: 0;">
+              <ion-label [routerLink]="['/home']" style="cursor: pointer;">Home</ion-label>
+              <ion-icon name="chevron-forward-outline" style="margin: 0 10px;font-size: 11px;"></ion-icon>
+              <ion-label><b>Detail</b></ion-label>
+            </ion-col>
+            <ion-col style="text-align: end;">
+              <ion-button *ngIf="!isEdit" (click)="editData()"><ion-icon name="pencil-outline"></ion-icon> &nbsp;<b>Update</b></ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <ion-grid *ngIf="!isEdit" style="padding: 0;">
+        <ion-row>
+          <ion-col style="padding: 0;">
+            <img src="{{ detailProduct?.thumbnail }}" style="width: 400px; border-radius: 14px;"/> 
+          </ion-col>
+          <ion-col style="left: -160px;">
+            <h3 style="margin:0; cursor: pointer;"><b>{{ detailProduct?.title }}</b></h3>
+            <ion-badge style="margin-top: 10px;background-color: #89b0ff;">{{ detailProduct?.category }}</ion-badge>
+            <div style="margin-top: 8px;">
+              <ion-label style="margin-right: 20px;"><ion-icon name="star-outline" style="color: rgb(255, 0, 0);"></ion-icon> {{ detailProduct?.rating }}</ion-label>
+              <ion-label>Stok: {{ detailProduct?.stock }}</ion-label>
+            </div>
+            <h3 style="color: #558AF7;margin: 10px 0 0;"><b>$ {{ detailProduct?.price }}</b></h3>
+            <p style="margin: 5px 0;">Diskon: <ion-label style="color: red;"><b>{{ detailProduct?.discountPercentage }}%</b></ion-label></p>
+            <div>
+              <p style="margin-bottom: 10px;"><b>Deskripsi :</b></p>
+              <ion-label style="font-size: 14px;">{{ detailProduct?.description }}</ion-label>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <div *ngIf="isEdit">
+        <h4 style="margin-top: 25px"><b>Update Produk</b></h4>
+        <ion-grid style="padding: 0 !important;margin-top: 20px;">
+          <ion-row>
+            <ion-col style="padding: 0;margin-right: 18px;">
+              <div style="margin-bottom: 10px;">
+                <ion-label>Nama Produk</ion-label>
+                <ion-input [(ngModel)]="detailProduct.title" type="text"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Harga</ion-label>
+                <ion-input [(ngModel)]="detailProduct.price" type="number"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Stok</ion-label>
+                <ion-input [(ngModel)]="detailProduct.stock" type="number"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Deskripsi</ion-label>
+                <ion-textarea [(ngModel)]="detailProduct.description"></ion-textarea>
+              </div>
+            </ion-col>
+            <ion-col style="padding: 0;">
+              <div style="margin-bottom: 10px;">
+                <ion-label>Kategori</ion-label>
+                <ion-input [(ngModel)]="detailProduct.category" type="text"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Diskon</ion-label>
+                <ion-input [(ngModel)]="detailProduct.discountPercentage" type="text"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Rating</ion-label>
+                <ion-input [(ngModel)]="detailProduct.rating" type="text"></ion-input>
+              </div>
+              <div style="margin-bottom: 10px;">
+                <ion-label>Thumbnail</ion-label>
+                <ion-input [(ngModel)]="thumbnail" type="file" (change)="handleFileSelect($event)"></ion-input>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button (click)="editData()" fill="outline" style="margin: 11px 10px 0 0;">Cancel</ion-button>
+        <ion-button (click)="updateProduct(detailProduct.id)" fill="solid" style="margin-top: 15px;">Simpan</ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>
